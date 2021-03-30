@@ -21,7 +21,7 @@ const app = express()
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useCreateIndex: true
-}).then(() => console.log("DB Connected"));
+}).then(() => console.log("DB works!"));
 //middlewares
 app.use(morgan('dev'));
 app.use(bodyParser.json());
