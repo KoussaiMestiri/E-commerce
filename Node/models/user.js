@@ -113,7 +113,6 @@ userSchema
     return this.encryptPassword(plaintText) === this.hashed_password;
   },
  
-
   encryptPassword: function (password) {
     if (!password) return "";
     try {
