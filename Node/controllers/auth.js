@@ -1,4 +1,4 @@
-const User = require('../models/user')
+const User = require('../models/User')
 const jwt = require('jsonwebtoken') // to generate signed token
 const expressJwt = require('express-jwt') //used to check authorization 
 const {errorHandler} = require('../helpers/dbErrorHandlers')
@@ -13,16 +13,14 @@ exports.signup = (req, res) => {
                 err: errorHandler(err)
             });
         }
-        res.json({
-            user
-        });
+        res.json({user});
     });
 };
 
 exports.signin = (req, res) => {
     //find the user based on the email
     const {email, password} = req.body
-    User.findOne({email}, (err, user) => {
+    User.findOne({"profile.email": email}, (err, user) => {
         if(err || !user){
             return res.status(400).json({
                 error: "User is Not Found!"
@@ -35,6 +33,12 @@ exports.signin = (req, res) => {
                 error: 'Email and password not correct'
             });
         }
+        User.findOneAndUpdate({_id: user._id}, {$push: {"profile.history.loggedAt": Date.now()}}, {new: true}, (err, user) => {
+            if(err) {
+                return res.status(400).json({
+                    error: "You Are Not Authorized Tp Perform This Action"
+                });
+            }});
         //generate a signed token with user id and secret
         const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET)
         //persist the token as 't' in cookie with expiry date

@@ -1,9 +1,9 @@
-const Product = require('../models/product')
+const Product = require('../models/Product')
 const _ = require('lodash')
 const formidable = require('formidable')
 const fs = require('fs')
 const {errorHandler} = require('../helpers/dbErrorHandlers')
-const product = require('../models/product')
+const product = require('../models/Product')
 const { result } = require('lodash')
 
 
@@ -137,7 +137,7 @@ exports.update = (req, res) => {
 
     //we use select to deselect photo from getting the photo with response because it may be too heavy
     Product.find()
-    .select("-photo")
+    .select("-photo")  //kif nzido - ya3ni exclude that attribut / c nn kif t7ot 3adi hadhokom les attrs ili njibohom
     .populate("category")
     .sort([[sortBy, order]])
     .limit(limit)
@@ -162,7 +162,7 @@ exports.allRelatedProducts = (req, res) => {
     //ne : means not included we used to search for the product by the id and we don't want toinclude the req.product
     Product.find({_id: {$ne: req.product}, category: req.product.category})
     .limit(limit)
-    .populate('category', '_id name')
+    .populate('category', '_id name') // second argument nesta3mloh bash just ya33tina l field hadhka barka ya3ni 7ashetna kan bl -id wel name
     .exec((err, products) => {
         if(err) {
             return res.status(400).json({
