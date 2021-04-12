@@ -12,6 +12,11 @@ const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
 const categoryRoutes = require('./routes/category')
 const productRoutes = require('./routes/product')
+const reviewRoutes = require('./routes/review')
+const skillRoutes = require('./routes/skill')
+const educationRoutes = require('./routes/education')
+const certificationRoutes = require('./routes/certification')
+
 
 
 //app
@@ -34,6 +39,11 @@ app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", productRoutes);
+app.use("/api", reviewRoutes);
+app.use("/api", skillRoutes);
+app.use("/api", educationRoutes);
+app.use("/api", certificationRoutes);
+
 
 
 const port = process.env.PORT || 8000
